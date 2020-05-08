@@ -4,5 +4,23 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Kanamori/Scenes/Dbg/DbgMenu.unity
+    guid: 384f93bed8747244bb0c6fb2fd0e01a1
+  - enabled: 1
+    path: Assets/Kanamori/Scenes/Dbg/DbgKeyPoint.unity
+    guid: 916934939c3186e4584cba179b2bd6d3
+  - enabled: 1
+    path: Assets/Kanamori/Scenes/Dbg/DbgMap.unity
+    guid: 1fbba971cd46a2948bae33039ba86aac
+  - enabled: 1
+    path: Assets/Kanamori/Scenes/Dbg/DbgModel.unity
+    guid: f29706e2ebd99a44bb3b76ba0523f8bc
+  - enabled: 1
+    path: Assets/Kanamori/Scenes/Dbg/DbgNavigation.unity
+    guid: bfd93e77f2b88c9459a8e9e53e8141cb
+  - enabled: 1
+    path: Assets/Kanamori/Scenes/Dbg/DbgRoad.unity
+    guid: e2e72dc882ca60443a6c319560e0553b
   m_configObjects: {}
