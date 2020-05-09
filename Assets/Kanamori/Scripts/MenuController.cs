@@ -47,8 +47,11 @@ namespace Kanamori
         /// </summary>
         public void DeleteMap()
         {
-            game.DelMap();
-            UISettings();
+            if (game)
+            {
+                game.DelMap();
+                UISettings();
+            }
         }
         /// <summary>
         /// 添加地图
@@ -56,8 +59,9 @@ namespace Kanamori
         /// <param name="sceneName">场景名称</param>
         public void AddMap(string sceneName)
         {
-            if (input.text.Length > 0)
+            if (input.text.Length > 0 && game)
             {
+                game.inputName = input.text;
                 LoadScene(sceneName);
             }
         }
@@ -66,6 +70,10 @@ namespace Kanamori
         /// </summary>
         private void UISettings()
         {
+            if (!game)
+            {
+                return;
+            }
             if (game.GetMapID().Length == 0)
             {
                 btnAdd.gameObject.SetActive(true);

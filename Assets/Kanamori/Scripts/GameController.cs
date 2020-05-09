@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Kanamori
 {
@@ -11,6 +12,7 @@ namespace Kanamori
     {
 
         private static GameController instance = null;
+        public string inputName;
 
         void Awake()
         {
@@ -65,7 +67,12 @@ namespace Kanamori
             PlayerPrefs.DeleteKey("MapID");
             PlayerPrefs.DeleteKey("MapName");
         }
-
+        /// <summary>
+        /// 返回调试用菜单
+        /// </summary>
+        public void BackDbgMenu(){
+            SceneManager.LoadScene("DbgMenu");
+        }
     }
 }
 
