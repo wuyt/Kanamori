@@ -21,6 +21,7 @@ namespace Kanamori
         /// 动态添加物体保存地址
         /// </summary>
         private static readonly string pathDynamicObject = "/dynamicobject.txt";
+        private static readonly string pathKeyPoint = "/keypoint.txt";
 
         void Awake()
         {
@@ -83,6 +84,16 @@ namespace Kanamori
         {
             SceneManager.LoadScene("DbgMenu");
         }
+
+        public void SaveKeyPoint(string[] stringArray)
+        {
+            SaveStringArray(stringArray, Application.persistentDataPath + pathKeyPoint);
+        }
+        public List<string> LoadKeyPoint()
+        {
+            return LoadStringList(Application.persistentDataPath + pathKeyPoint);
+        }
+
         /// <summary>
         /// 保存动态添加物体信息
         /// </summary>

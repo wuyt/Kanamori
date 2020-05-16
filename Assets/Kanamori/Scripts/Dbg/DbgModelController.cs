@@ -43,8 +43,7 @@ namespace Kanamori.Dbg
         {
             game = FindObjectOfType<GameController>();
             uiControl = FindObjectOfType<UIControlObject>();
-            addUI.SetActive(true);
-            saveUI.SetActive(false);
+            Close();
             Load();
         }
         /// <summary>
