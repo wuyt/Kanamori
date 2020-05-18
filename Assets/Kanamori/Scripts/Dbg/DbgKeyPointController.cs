@@ -8,18 +8,57 @@ namespace Kanamori.Dbg
 {
     public class DbgKeyPointController : MonoBehaviour
     {
+        /// <summary>
+        /// 摄像机
+        /// </summary>
         public Transform cam;
+        /// <summary>
+        /// 跟踪图片
+        /// </summary>
         public Transform image;
+        /// <summary>
+        /// 游戏控制
+        /// </summary>
         private GameController game;
+        /// <summary>
+        /// 返回界面
+        /// </summary>
         public GameObject uiBack;
+        /// <summary>
+        /// 主界面
+        /// </summary>
         public GameObject uiMain;
+        /// <summary>
+        /// 被选中的游戏对象
+        /// </summary>
         private Transform selected;
+        /// <summary>
+        /// 添加按钮
+        /// </summary>
         public Button btnAdd;
+        /// <summary>
+        /// 提示信息文本
+        /// </summary>
         public Text textInfo;
+        /// <summary>
+        /// 关键点名称输入框
+        /// </summary>
         public InputField inputField;
+        /// <summary>
+        /// 关键点类型下拉列表
+        /// </summary>
         public Dropdown dropdown;
+        /// <summary>
+        /// 滚动视图容器
+        /// </summary>
         public Transform svContent;
+        /// <summary>
+        /// 按钮预制件
+        /// </summary>
         public SelectButton prefab;
+        /// <summary>
+        /// 删除按钮
+        /// </summary>
         public Button btnDelete;
 
         void Start()
@@ -53,7 +92,10 @@ namespace Kanamori.Dbg
                 }
             }
         }
-
+        /// <summary>
+        /// 点击物体
+        /// </summary>
+        /// <param name="ray"></param>
         private void TouchedObject(Ray ray)
         {
             if (Physics.Raycast(ray, out RaycastHit hit))
@@ -64,16 +106,24 @@ namespace Kanamori.Dbg
                 btnAdd.interactable = true;
             }
         }
-
+        /// <summary>
+        /// 返回
+        /// </summary>
         public void Back()
         {
             game.BackDbgMenu();
         }
+        /// <summary>
+        /// 关闭主界面
+        /// </summary>
         public void Close()
         {
             uiMain.SetActive(false);
             uiBack.SetActive(true);
         }
+        /// <summary>
+        /// 添加关键点
+        /// </summary>
         public void Add()
         {
             if (!string.IsNullOrEmpty(inputField.text) && selected != null)
@@ -92,6 +142,9 @@ namespace Kanamori.Dbg
                 btnAdd.interactable = false;
             }
         }
+        /// <summary>
+        /// 保存关键点
+        /// </summary>
         public void Save()
         {
             string[] jsons = new string[svContent.childCount];
@@ -102,6 +155,9 @@ namespace Kanamori.Dbg
             game.SaveKeyPoint(jsons);
             textInfo.text = "保存完成。";
         }
+        /// <summary>
+        /// 加载关键点
+        /// </summary>
         private void Load()
         {
             var list = game.LoadKeyPoint();
@@ -112,6 +168,10 @@ namespace Kanamori.Dbg
                 btn.GetComponentInChildren<Text>().text = btn.keyPoint.name;
             }
         }
+        /// <summary>
+        /// 关键点按钮点击
+        /// </summary>
+        /// <param name="btn">按钮</param>
         public void SelectButtonClicked(Transform btn)
         {
             selected = btn;
@@ -119,6 +179,9 @@ namespace Kanamori.Dbg
             btnDelete.interactable = true;
             btnAdd.interactable = false;
         }
+        /// <summary>
+        /// 删除关键点
+        /// </summary>
         public void Delete()
         {
             Destroy(selected.gameObject);

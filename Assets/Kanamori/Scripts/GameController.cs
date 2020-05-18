@@ -22,6 +22,7 @@ namespace Kanamori
         /// </summary>
         private static readonly string pathDynamicObject = "/dynamicobject.txt";
         private static readonly string pathKeyPoint = "/keypoint.txt";
+        private static readonly string pathRoad = "/road.txt";
 
         void Awake()
         {
@@ -84,16 +85,30 @@ namespace Kanamori
         {
             SceneManager.LoadScene("DbgMenu");
         }
-
+        public void SaveRoad(string[] stringArray)
+        {
+            SaveStringArray(stringArray, Application.persistentDataPath + pathRoad);
+        }
+        public List<string> LoadRoad()
+        {
+            return LoadStringList(Application.persistentDataPath + pathRoad);
+        }
+        /// <summary>
+        /// 保存关键点
+        /// </summary>
+        /// <param name="stringArray">JSON字符串数组</param>
         public void SaveKeyPoint(string[] stringArray)
         {
             SaveStringArray(stringArray, Application.persistentDataPath + pathKeyPoint);
         }
+        /// <summary>
+        /// 加载关键点
+        /// </summary>
+        /// <returns>JSON字符串列表</returns>
         public List<string> LoadKeyPoint()
         {
             return LoadStringList(Application.persistentDataPath + pathKeyPoint);
         }
-
         /// <summary>
         /// 保存动态添加物体信息
         /// </summary>
@@ -105,7 +120,7 @@ namespace Kanamori
         /// <summary>
         /// 读取动态添加物体信息
         /// </summary>
-        /// <returns>物体JSON字符串</returns>
+        /// <returns>物体JSON字符串列表</returns>
         public List<string> LoadDynamicObject()
         {
             return LoadStringList(Application.persistentDataPath + pathDynamicObject);
