@@ -85,10 +85,18 @@ namespace Kanamori
         {
             SceneManager.LoadScene("DbgMenu");
         }
+        /// <summary>
+        /// 保存路径
+        /// </summary>
+        /// <param name="stringArray">JSON字符串数组</param>
         public void SaveRoad(string[] stringArray)
         {
             SaveStringArray(stringArray, Application.persistentDataPath + pathRoad);
         }
+        /// <summary>
+        /// 加载路径
+        /// </summary>
+        /// <returns>JSON字符串列表</returns>
         public List<string> LoadRoad()
         {
             return LoadStringList(Application.persistentDataPath + pathRoad);

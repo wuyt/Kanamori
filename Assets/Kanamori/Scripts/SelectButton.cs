@@ -7,6 +7,7 @@ namespace Kanamori
     {
         public KeyPoint keyPoint;
         public Road road;
+        public Transform target;
         void Start()
         {
             gameObject.GetComponent<Button>().onClick.AddListener(() =>
