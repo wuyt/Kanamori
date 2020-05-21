@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 namespace Kanamori
 {
+    /// <summary>
+    /// 用UI控制游戏对象
+    /// </summary>
     public class UIControlObject : MonoBehaviour
     {
         /// <summary>

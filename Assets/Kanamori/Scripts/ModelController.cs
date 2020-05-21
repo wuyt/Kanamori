@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using easyar;
 
-namespace Kanamori.Dbg
+namespace Kanamori
 {
-    public class DbgModelController : MonoBehaviour
+    public class ModelController : MonoBehaviour
     {
         /// <summary>
         /// 游戏控制
@@ -15,17 +16,10 @@ namespace Kanamori.Dbg
         /// </summary>
         public Transform frontCamera;
         /// <summary>
-        /// 稀疏空间地图
-        /// </summary>
-        public Transform ssMap;
-        /// <summary>
-        /// 添加的物体
-        /// </summary>
-        public GameObject blueBox;
-        /// <summary>
         /// 添加界面
         /// </summary>
         public GameObject addUI;
+        public Button btnAdd;
         /// <summary>
         /// 保存界面
         /// </summary>
@@ -38,14 +32,62 @@ namespace Kanamori.Dbg
         /// 显示信息文本
         /// </summary>
         public Text textShow;
+        public SparseSpatialMapWorkerFrameFilter mapWorker;
+        public SparseSpatialMapController map;
+        /// <summary>
+        /// 稀疏空间地图
+        /// </summary>
+        public Transform ssMap;
+        /// <summary>
+        /// 添加的物体
+        /// </summary>
+        public GameObject blueBox;
 
         void Start()
         {
             game = FindObjectOfType<GameController>();
             uiControl = FindObjectOfType<UIControlObject>();
+            btnAdd.interactable = false;
             Close();
             Load();
+            LoadMap();
         }
+        /// <summary>
+        /// 本地化地图
+        /// </summary>
+        private void LoadMap()
+        {
+            //设置地图
+            map.MapManagerSource.ID = game.GetMapID();
+            map.MapManagerSource.Name = game.GetMapName();
+            //地图获取反馈
+            map.MapLoad += (map, status, error) =>
+            {
+                if (status)
+                {
+                    textShow.text = "地图加载成功。";
+                }
+                else
+                {
+                    textShow.text = "地图加载失败：" + error;
+                }
+            };
+            //定位成功事件
+            map.MapLocalized += () =>
+            {
+                textShow.text = "稀疏空间定位成功。";
+                btnAdd.interactable = true;
+            };
+            //停止定位事件
+            map.MapStopLocalize += () =>
+            {
+                textShow.text = "停止稀疏空间定位。";
+                btnAdd.interactable = false;
+            };
+            textShow.text = "开始本地化稀疏空间。";
+            mapWorker.Localizer.startLocalization();    //本地化地图
+        }
+
         /// <summary>
         /// 返回菜单
         /// </summary>
@@ -53,7 +95,7 @@ namespace Kanamori.Dbg
         {
             if (game)
             {
-                game.BackDbgMenu();
+                game.BackMenu();
             }
         }
         /// <summary>

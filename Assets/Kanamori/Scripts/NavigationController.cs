@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using easyar;
 
-namespace Kanamori.Dbg
+namespace Kanamori
 {
-    public class DbgNavigationController : MonoBehaviour
+    public class NavigationController : MonoBehaviour
     {
         /// <summary>
         /// 返回界面
@@ -74,6 +75,26 @@ namespace Kanamori.Dbg
         /// 刷新频率
         /// </summary>
         public float refresh;
+        /// <summary>
+        /// 导航按钮
+        /// </summary>
+        public Button btnNav;
+        /// <summary>
+        /// 文本显示
+        /// </summary>
+        public Text textShow;
+        /// <summary>
+        /// 稀疏空间地图工作框架
+        /// </summary>
+        public SparseSpatialMapWorkerFrameFilter mapWorker;
+        /// <summary>
+        /// 稀疏空间地图
+        /// </summary>
+        public SparseSpatialMapController map;
+        /// <summary>
+        /// 导航状态
+        /// </summary>
+        private NavStatus navStatus;
         void Start()
         {
             game = FindObjectOfType<GameController>();
@@ -81,8 +102,70 @@ namespace Kanamori.Dbg
             LoadObjects();
             LoadTarget();
             LoadRoad();
-            BakePath();
-            ShowNav();
+            Close();
+            navStatus = NavStatus.wating;
+            btnNav.interactable = false;
+        }
+        /// <summary>
+        /// 本地化地图
+        /// </summary>
+        private void LoadMap()
+        {
+            //设置地图
+            map.MapManagerSource.ID = game.GetMapID();
+            map.MapManagerSource.Name = game.GetMapName();
+            //地图获取反馈
+            map.MapLoad += (map, status, error) =>
+            {
+                if (status)
+                {
+                    textShow.text = "地图加载成功。";
+                }
+                else
+                {
+                    textShow.text = "地图加载失败：" + error;
+                }
+            };
+            //定位成功事件
+            map.MapLocalized += () =>
+            {
+                textShow.text = "稀疏空间定位成功。";
+                switch (navStatus)
+                {
+                    case NavStatus.wating:
+                        navStatus = NavStatus.localized;
+                        btnNav.interactable = true;
+                        ShowNav();
+                        break;
+                    case NavStatus.navigation:
+                        CancelInvoke("DisplayPath");
+                        BakePath();
+                        InvokeRepeating("DisplayPath", 0, refresh);
+                        break;
+                    default:
+                        break;
+                }
+            };
+            //停止定位事件
+            map.MapStopLocalize += () =>
+            {
+                textShow.text = "停止稀疏空间定位。";
+                switch (navStatus)
+                {
+                    case NavStatus.localized:
+                        navStatus = NavStatus.localized;
+                        btnNav.interactable = false;
+                        Close();
+                        break;
+                    case NavStatus.navigation:
+                        CancelInvoke("DisplayPath");
+                        break;
+                    default:
+                        break;
+                }
+            };
+            textShow.text = "开始本地化稀疏空间。";
+            mapWorker.Localizer.startLocalization();    //本地化地图
         }
         /// <summary>
         /// 设置静态游戏对象显示
@@ -115,7 +198,10 @@ namespace Kanamori.Dbg
         /// </summary>
         public void Back()
         {
-            game.BackDbgMenu();
+            if (game)
+            {
+                game.BackMenu();
+            }
         }
         /// <summary>
         /// 加载动态物体
@@ -207,11 +293,31 @@ namespace Kanamori.Dbg
         /// <param name="btn">按钮</param>
         public void SelectButtonClicked(Transform btn)
         {
+            navStatus = NavStatus.navigation;
+            BakePath();
             CancelInvoke("DisplayPath");
             target = btn.GetComponent<SelectButton>().target;
             InvokeRepeating("DisplayPath", 0, refresh);
             Close();
         }
+    }
+    /// <summary>
+    /// 导航状态
+    /// </summary>
+    public enum NavStatus
+    {
+        /// <summary>
+        /// 等待
+        /// </summary>
+        wating,
+        /// <summary>
+        /// 定位成功
+        /// </summary>
+        localized,
+        /// <summary>
+        /// 导航
+        /// </summary>
+        navigation
     }
 }
 

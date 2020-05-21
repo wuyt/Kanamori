@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
@@ -21,7 +20,13 @@ namespace Kanamori
         /// 动态添加物体保存地址
         /// </summary>
         private static readonly string pathDynamicObject = "/dynamicobject.txt";
+        /// <summary>
+        /// 关键点保存地址
+        /// </summary>
         private static readonly string pathKeyPoint = "/keypoint.txt";
+        /// <summary>
+        /// 路径保存地址
+        /// </summary>
         private static readonly string pathRoad = "/road.txt";
 
         void Awake()
@@ -84,6 +89,12 @@ namespace Kanamori
         public void BackDbgMenu()
         {
             SceneManager.LoadScene("DbgMenu");
+        }
+        /// <summary>
+        /// 返回菜单
+        /// </summary>
+        public void BackMenu(){
+            SceneManager.LoadScene("Menu");
         }
         /// <summary>
         /// 保存路径

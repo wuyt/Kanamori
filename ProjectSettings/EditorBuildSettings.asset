@@ -6,21 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Kanamori/Scenes/Dbg/DbgMenu.unity
-    guid: 384f93bed8747244bb0c6fb2fd0e01a1
+    path: Assets/Kanamori/Scenes/Menu.unity
+    guid: f8541df4f12ef224190d22e2b8901ac3
   - enabled: 1
-    path: Assets/Kanamori/Scenes/Dbg/DbgKeyPoint.unity
-    guid: 916934939c3186e4584cba179b2bd6d3
+    path: Assets/Kanamori/Scenes/KeyPoint.unity
+    guid: 203b2116b3799944dbd5f4767e248a7d
   - enabled: 1
-    path: Assets/Kanamori/Scenes/Dbg/DbgMap.unity
-    guid: 1fbba971cd46a2948bae33039ba86aac
+    path: Assets/Kanamori/Scenes/Map.unity
+    guid: 49056e9b675540146b3609a62336a645
   - enabled: 1
-    path: Assets/Kanamori/Scenes/Dbg/DbgModel.unity
-    guid: f29706e2ebd99a44bb3b76ba0523f8bc
+    path: Assets/Kanamori/Scenes/Model.unity
+    guid: 245b3ae65fb1ffc4f97661ff96743063
   - enabled: 1
-    path: Assets/Kanamori/Scenes/Dbg/DbgNavigation.unity
-    guid: bfd93e77f2b88c9459a8e9e53e8141cb
+    path: Assets/Kanamori/Scenes/Navigation.unity
+    guid: 2a635e029ba53bf4580e70912ae748e3
   - enabled: 1
-    path: Assets/Kanamori/Scenes/Dbg/DbgRoad.unity
-    guid: e2e72dc882ca60443a6c319560e0553b
+    path: Assets/Kanamori/Scenes/Road.unity
+    guid: 6d3c2b1191a14ad49bd50c39575970e4
   m_configObjects: {}

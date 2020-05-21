@@ -1,19 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using easyar;
 
-namespace Kanamori.Dbg
+namespace Kanamori
 {
-    public class DbgKeyPointController : MonoBehaviour
+    public class KeyPointController : MonoBehaviour
     {
-        /// <summary>
-        /// 摄像机
-        /// </summary>
-        public Transform cam;
-        /// <summary>
-        /// 跟踪图片
-        /// </summary>
-        public Transform image;
         /// <summary>
         /// 游戏控制
         /// </summary>
@@ -58,6 +51,18 @@ namespace Kanamori.Dbg
         /// 删除按钮
         /// </summary>
         public Button btnDelete;
+        /// <summary>
+        /// 稀疏空间地图框架
+        /// </summary>
+        public SparseSpatialMapWorkerFrameFilter mapWorker;
+        /// <summary>
+        /// 稀疏空间地图
+        /// </summary>
+        public SparseSpatialMapController map;
+        /// <summary>
+        /// 平面图像跟踪器
+        /// </summary>
+        public ImageTrackerFrameFilter imageTracker;
 
         void Start()
         {
@@ -66,10 +71,11 @@ namespace Kanamori.Dbg
             btnAdd.interactable = false;
             btnDelete.interactable = false;
             Close();
+            imageTracker.enabled = false;
+            LoadMap();
         }
         void Update()
         {
-            cam.LookAt(image);
             if (Application.platform == RuntimePlatform.WindowsEditor)
             {
                 if (Input.GetMouseButtonDown(0)
@@ -89,6 +95,41 @@ namespace Kanamori.Dbg
                     TouchedObject(ray);
                 }
             }
+        }
+        /// <summary>
+        /// 本地化地图
+        /// </summary>
+        private void LoadMap()
+        {
+            //设置地图
+            map.MapManagerSource.ID = game.GetMapID();
+            map.MapManagerSource.Name = game.GetMapName();
+            //地图获取反馈
+            map.MapLoad += (map, status, error) =>
+            {
+                if (status)
+                {
+                    textInfo.text = "地图加载成功。";
+                }
+                else
+                {
+                    textInfo.text = "地图加载失败：" + error;
+                }
+            };
+            //定位成功事件
+            map.MapLocalized += () =>
+            {
+                textInfo.text = "稀疏空间定位成功。";
+                imageTracker.enabled = true;
+            };
+            //停止定位事件
+            map.MapStopLocalize += () =>
+            {
+                textInfo.text = "停止稀疏空间定位。";
+                imageTracker.enabled = false;
+            };
+            textInfo.text = "开始本地化稀疏空间。";
+            mapWorker.Localizer.startLocalization();    //本地化地图
         }
         /// <summary>
         /// 点击物体
@@ -111,7 +152,7 @@ namespace Kanamori.Dbg
         {
             if (game)
             {
-                game.BackDbgMenu();
+                game.BackMenu();
             }
         }
         /// <summary>
