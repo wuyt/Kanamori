@@ -126,19 +126,22 @@ namespace Kanamori.Dbg
         /// </summary>
         public void Save()
         {
-            string[] jsons = new string[ssMap.childCount];
+            string[] jsons = new string[ssMap.childCount - 1];
             for (int i = 0; i < ssMap.childCount; i++)
             {
-                DynamicObject dynamicObject = new DynamicObject();
-                dynamicObject.position = ssMap.GetChild(i).localPosition;
-                dynamicObject.rotation = ssMap.GetChild(i).localEulerAngles;
-                dynamicObject.scale = ssMap.GetChild(i).localScale;
-                jsons[i] = JsonUtility.ToJson(dynamicObject);
+                if (ssMap.GetChild(i).name != "PointCloudParticleSystem")
+                {
+                    DynamicObject dynamicObject = new DynamicObject();
+                    dynamicObject.position = ssMap.GetChild(i).localPosition;
+                    dynamicObject.rotation = ssMap.GetChild(i).localEulerAngles;
+                    dynamicObject.scale = ssMap.GetChild(i).localScale;
+                    jsons[i - 1] = JsonUtility.ToJson(dynamicObject);
+                }
             }
             if (game)
             {
                 game.SaveDynamicObject(jsons);
-                textShow.text = "保存" + ssMap.childCount + "个游戏对象";
+                textShow.text = "保存" + (ssMap.childCount - 1) + "个游戏对象";
             }
         }
         /// <summary>

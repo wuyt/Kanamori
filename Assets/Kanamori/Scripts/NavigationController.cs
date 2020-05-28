@@ -98,13 +98,14 @@ namespace Kanamori
         void Start()
         {
             game = FindObjectOfType<GameController>();
-            SetStaticObject();
+            lineRenderer.gameObject.SetActive(false);
             LoadObjects();
             LoadTarget();
             LoadRoad();
             Close();
             navStatus = NavStatus.wating;
             btnNav.interactable = false;
+            LoadMap();
         }
         /// <summary>
         /// 本地化地图
@@ -135,6 +136,7 @@ namespace Kanamori
                     case NavStatus.wating:
                         navStatus = NavStatus.localized;
                         btnNav.interactable = true;
+                        SetStaticObject();
                         ShowNav();
                         break;
                     case NavStatus.navigation:
@@ -200,6 +202,7 @@ namespace Kanamori
         {
             if (game)
             {
+                CancelInvoke("DisplayPath");
                 game.BackMenu();
             }
         }
@@ -294,6 +297,7 @@ namespace Kanamori
         public void SelectButtonClicked(Transform btn)
         {
             navStatus = NavStatus.navigation;
+            lineRenderer.gameObject.SetActive(true);
             BakePath();
             CancelInvoke("DisplayPath");
             target = btn.GetComponent<SelectButton>().target;

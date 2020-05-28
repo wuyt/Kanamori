@@ -58,6 +58,10 @@ namespace Kanamori.Dbg
         /// 删除按钮
         /// </summary>
         public Button btnDelete;
+        /// <summary>
+        /// 模拟稀疏空间地图
+        /// </summary>
+        public Transform map;
 
         void Start()
         {
@@ -100,7 +104,10 @@ namespace Kanamori.Dbg
             {
                 uiBack.SetActive(false);
                 uiMain.SetActive(true);
-                selected = hit.transform;
+                var tf = new GameObject().transform;
+                tf.position = hit.transform.position;
+                tf.parent = map.transform;
+                selected = tf;
                 btnAdd.interactable = true;
             }
         }

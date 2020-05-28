@@ -141,7 +141,10 @@ namespace Kanamori
             {
                 uiBack.SetActive(false);
                 uiMain.SetActive(true);
-                selected = hit.transform;
+                var tf = new GameObject().transform;
+                tf.position = hit.transform.position;
+                tf.parent = map.transform;
+                selected = tf;
                 btnAdd.interactable = true;
             }
         }

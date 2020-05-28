@@ -3369,6 +3369,7 @@ MonoBehaviour:
   svContent: {fileID: 683204535}
   prefab: {fileID: 6829541250868135315, guid: ec1a79cf51cbc934b9015aa6d0530707, type: 3}
   btnDelete: {fileID: 661852510}
+  fakeMap: {fileID: 282832918}
 --- !u!4 &1770835960
 Transform:
   m_ObjectHideFlags: 0
